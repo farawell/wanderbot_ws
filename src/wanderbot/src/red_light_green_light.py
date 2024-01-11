@@ -11,7 +11,7 @@ red_light_twist = Twist() # set all the velocity subcomponents to 0, telling rob
 green_light_twist = Twist()
 green_light_twist.linear.x = 0.5 # "Go straight 0.5m/s"
 
-driving_forward = False
+driving_forward = True
 light_change_time = rospy.Time.now()
 rate = rospy.Rate(10)
 
@@ -21,8 +21,12 @@ while not rospy.is_shutdown():
     else:
         cmd_vel_pub.publish(red_light_twist)
     
-    if light_change_time > rospy.Time.now():
+    # if light_change_time > rospy.Time.now():
+    #     driving_forward = not driving_forward
+    #     light_change_time = rospy.Time.now() + rospy.Duration(3)
+
+    if rospy.Time.now() - light_change_time >= rospy.Duration(3):
         driving_forward = not driving_forward
-        light_change_time = rospy.Time.now() + rospy.Duration(3)
-    
+        light_change_time = rospy.Time.now()
+
     rate.sleep()
