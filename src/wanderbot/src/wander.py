@@ -20,7 +20,7 @@ g_range_ahead = 1 # Just a random number
 
 scan_sub = rospy.Subscriber('scan', LaserScan, scan_callback)
 cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
-rospy.init_node('wnader')
+rospy.init_node('wander')
 
 state_change_time = rospy.Time.now()
 driving_forward = True
