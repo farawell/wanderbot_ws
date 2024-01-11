@@ -6,7 +6,7 @@ from sensor_msgs.msg import LaserScan
 
 def scan_callback(msg):
     # Distance to the closest obstacle in front of the robot(where robot looks at)
-    range_ahead = msg.ranges[len(msg.ranges) / 2] # Selecting the middle element of 'ranges'
+    range_ahead = msg.ranges[len(msg.ranges) // 2] # Selecting the middle element of 'ranges'
 
     print("range ahead: %0.1f" % range_ahead)
 
