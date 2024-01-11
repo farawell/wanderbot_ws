@@ -22,7 +22,7 @@ class wanderBotController:
         self.range_ahead = 1 # Just a random number
         self.last_state_update_time = rospy.Time.now()
         self.driving_forward = True
-        self.scan_sub = rospy.Subscriber('scan', LaserScan, scan_callback)
+        self.scan_sub = rospy.Subscriber('scan', LaserScan, self.scan_callback)
         self.cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
         self.rate = rospy.Rate(10)
 
@@ -35,14 +35,14 @@ class wanderBotController:
         while not rospy.is_shutdown():
             elapsed_time = rospy.Time.now() - self.last_state_update_time
             
-            if  driving_forward and \
+            if  self.driving_forward and \
                 (elapsed_time > self.MAX_DRIVE_TIME or 
                  self.range_ahead < self.SAFE_DISTANCE):
                     self.driving_forward = False
                     twist.angular.z = 0
                     twist.linear.x = 1
                     self.last_state_update_time = rospy.Time.now()
-            elif not driving_forward and elapsed_time > self.MAX_SPIN_TIME:
+            elif not self.driving_forward and elapsed_time > self.MAX_SPIN_TIME:
                 self.driving_forward = True
                 twist.linear.x = 0
                 twist.angular.z = 1
@@ -52,7 +52,7 @@ class wanderBotController:
             self.rate.sleep()
 
 if __name__ == '__main__':
-    rospy.init_node(wander)
+    rospy.init_node('wander')
 
     try:
         controller = wanderBotController()
