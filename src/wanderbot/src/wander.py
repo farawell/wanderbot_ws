@@ -27,16 +27,18 @@ driving_forward = True
 rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
+    is_state_over_30s = rospy.Time.now() - state_change_time > 0
+
     if driving_forward:
-        if (g_range_ahead < 0.8 or rospy.Time.now() > state_change_time):
+        if (g_range_ahead < 0.8 or is_state_over_30s):
             driving_forward = False
             state_change_time = rospy.Time.now() + rospy.Duration(5)
-    else:
-        if rospy.Time.now() > state_change_time:
+    else: # On halt
+        if is_state_over_30s:
             driving_forward = True
             state_change_time = rospy.Time.now() + rospy.Duration(30)
 
-twist = Twist()
+twist = Twist() # initialization
 if driving_forward:
     twist.linear.x = 1
 else:
