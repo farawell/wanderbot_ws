@@ -25,4 +25,4 @@ while not rospy.is_shutdown():
         driving_forward = not driving_forward
         light_change_time = rospy.Time.now() + rospy.Duration(3)
     
-    rate.sleep(10)
+    rate.sleep()
