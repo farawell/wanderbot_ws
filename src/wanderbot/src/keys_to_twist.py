@@ -11,7 +11,7 @@ key_mapping = { 'w': [0, 1], 'x': [0, -1],
 
 def keys_cb(msg, twist_pub):
     # When the input is invalid
-    if len(msg.data) == 0 or not key_mapping.has_key(msg.data[0]):
+    if len(msg.data) == 0 or not key_mapping.__contains__(msg.data[0]):
         return
     
     vels = key_mapping[msg.data[0]]
@@ -26,6 +26,6 @@ if __name__ == '__main__':
     rospy.init_node('keys_to_twist')
 
     twist_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
-    rospy.Subscriber('keys', Twist, keys_cb, twist_pub)
+    rospy.Subscriber('keys', String, keys_cb, twist_pub)
 
     rospy.spin()
