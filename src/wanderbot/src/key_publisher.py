@@ -37,4 +37,5 @@ if __name__ == '__main__':
             key_pub.publish(sys.stdin.read(1))
         rate.sleep()
     
+    # TCSADRAIN: 'TCSA(Terminal Control Settings Attribute)' + 'Drain'
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_attr)
