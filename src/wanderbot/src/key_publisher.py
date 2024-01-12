@@ -12,7 +12,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(100)
     
     # Saving the previous terminal settings
-    old_attr = termios.tcgetattr('sys.stdin') 
+    old_attr = termios.tcgetattr(sys.stdin) 
 
     # .fineno() method returns the fd of sys.stdin
     # cbreak mode: still acepts ctrl-c, but 
