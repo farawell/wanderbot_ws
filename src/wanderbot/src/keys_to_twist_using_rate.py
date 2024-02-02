@@ -27,12 +27,16 @@ def keys_cb(msg, twist__pub):
 
 if __name__ == '__main__':
     rospy.init_node('keys_to_twist')
+
+    # Twist publisher
     twist_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
 
-rospy.Subscriber('keys', String, keys_cb, twist_pub)
-rate = rospy.Rate(10)
-g_last_twist = Twist() # initialization
+    # Keyboard input subscriber
+    rospy.Subscriber('keys', String, keys_cb, twist_pub)
 
-while not rospy.is_shutdown():
-    twist_pub.publish(g_last_twist)
-    rate.sleep()
+    rate = rospy.Rate(10)
+    g_last_twist = Twist() # initialization as 0
+
+    while not rospy.is_shutdown():
+        twist_pub.publish(g_last_twist)
+        rate.sleep()
