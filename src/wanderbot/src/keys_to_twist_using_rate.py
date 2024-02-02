@@ -11,7 +11,7 @@ key_mapping = { 'w': [0, 1], 'x': [0, -1],
 
 g_last_twist = None
 
-def keys_cb(msg, twist__pub):
+def keys_cb(msg, twist_pub):
     global g_last_twist
 
     # When the input is invalid
