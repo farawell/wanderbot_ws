@@ -19,7 +19,7 @@ def keys_cb(msg, twist_pub):
     if len(msg.data) == 0 or msg.data[0] not in key_mapping:
         return
     
-    vels = key_mapping(msg.data[0])
+    vels = key_mapping[msg.data[0]]
 
     g_last_twist.angular.z = vels[0] * g_vel_scales[0]
     g_last_twist.linear.x = vels[1] * g_vel_scales[1]
@@ -52,5 +52,5 @@ if __name__ == '__main__':
         
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
-        twist_pub.publihs('g_last_twist')
+        twist_pub.publish(g_last_twist)
         rate.sleep()
