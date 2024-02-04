@@ -78,7 +78,10 @@ if __name__ == '__main__':
     g_twist_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
     rospy.Subscriber('keys', String, keys_cb)
 
+    # Initialization
     g_target_twist = Twist()
+    g_last_twist = Twist()
+
     g_vel_scales[0] = fetch_param('~angular_scale', 0.1)
     g_vel_scales[1] = fetch_param('~linear_scale', 0.1)
     g_vel_ramps[0] = fetch_param('~angular_accel', 1.0)
