@@ -13,7 +13,7 @@ key_mapping = { 'w': [0, 1], 'x': [0, -1],
 g_twist_pub = None
 g_target_twist = None
 g_last_twist = None
-g_last_send_time = None
+g_last_twist_send_time = None
 
 g_vel_scales = [0.1, 0.1] # Initialization
 g_vel_ramps = [1, 1] # [m/s^2]
@@ -29,7 +29,7 @@ def ramped_vel(v_prev, v_target, t_prev, t_now, ramp_rate):
     else:
         return v_prev + sign * step
 
-# Return the appropriate next Twist object
+# Returns the appropriate next Twist object
 def ramped_twist(prev, target, t_prev, t_now, ramps):
     tw = Twist()
     tw.angular.z = ramped_vel(prev.angular.z, target.angular.z, t_prev,
@@ -50,7 +50,7 @@ def send_twist():
 
     g_twist_pub.publish(g_last_twist)
 
-# Callback function, 
+# Callback function, sets the target velocity according to the input
 def keys_cb(msg):
     global g_target_twist, g_last_twist, g_vel_scales
 
@@ -63,13 +63,14 @@ def keys_cb(msg):
     g_target_twist.angular.z = vels[0] * g_vel_scales[0]
     g_target_twist.linear.x = vels[1] * g_vel_scales[1]
 
+# Fetches parameters from the command line, otherwise, use the default value
 def fetch_param(name, default):
     if rospy.has_param(name):
         return rospy.get_param(name)
     else:
         print ("parameter [%s] not defined. Defaulting to %.3f" % (name, default))
         return default
-    
+
 if __name__ == '__main__':
     rospy.init_node('keys_to_twist')
 
